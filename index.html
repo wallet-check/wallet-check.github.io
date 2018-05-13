@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>wallet checker</title>
+<style>
+body,html{margin:0;height:100%;background-color:black;}
+</style>
+</head>
+<body>
+</body>
+<script>
+
+	const valid = [
+		'd6a51be1c336178f9a6079ac588a704db9fd9de40c53cfba449314cfb1012d6c'
+	]
+
+	async function sha256(b) {
+		const hb = await crypto.subtle.digest('SHA-256', b)
+		const ha = Array.from(new Uint8Array(hb))
+		return ha.map(b => ('00' + b.toString(16)).slice(-2)).join('')
+	}
+
+	const body = document.body
+	body.addEventListener("dragenter", stop, false)
+	body.addEventListener("dragover", stop, false)
+	body.addEventListener("drop", drop, false)
+
+	function stop(e) {
+		e.stopPropagation()
+		e.preventDefault()
+	}
+
+	function drop(e) {
+		stop(e)
+		const reader = new FileReader()
+		reader.onload = async function(e) {
+			const h = await sha256(e.target.result)
+			console.log(h)
+			body.style["background-color"] = valid.indexOf(h) > -1 ? 'green' : 'red'
+		}
+		reader.readAsArrayBuffer(e.dataTransfer.files[0])
+	}
+
+</script>
+</html>
