@@ -84,7 +84,7 @@
 		a: document.querySelector('a'),
 		reset: function() {
 			html.body.style['background-color'] = '#444'
-			html.progress.style.display = 'block'
+			html.progress.style.width = 0
 			html.status.innerHTML = 'DROP APP HERE'
 			html.app.innerHTML = ''
 			html.a.style.color = 'red'
@@ -227,7 +227,7 @@
 		}
 
 		const data = whitelist[hash]
-		html.progress.style.display = 'none'
+		html.progress.style.width = 0
 		html.body.style["background-color"] = data ? 'green' : 'red'
 		if (data) {
 			html.status.innerHTML = 'OK'
